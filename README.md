@@ -3,16 +3,14 @@
 macOS menu bar status item that shows your Claude Code agent metrics at a glance.
 
 ```
-● 6 | $93.20
+● 6 | 22m | $137.1
 ```
 
-Green dot = active sessions. Click to expand detailed metrics.
-
-![Menu Bar](https://img.shields.io/badge/macOS-menu%20bar-blue)
+Green dot = open sessions. Click to expand detailed metrics.
 
 ## What It Shows
 
-**Menu bar:** `● [sessions] | [cost]`
+**Menu bar:** `● [open sessions] | [time] | [cost]`
 
 **Dropdown (click to open):**
 - Sessions (total + open count)
@@ -20,13 +18,13 @@ Green dot = active sessions. Click to expand detailed metrics.
 - Prompts (total today)
 - Tokens (input / output / cache)
 - Git activity (commits, files changed)
-- Per-session breakdown (project, duration, cost)
+- Open sessions breakdown (project, duration, cost)
 
 ## Requirements
 
 - macOS 13+
 - Swift 5.9+ (Xcode Command Line Tools)
-- [Hook Hero](https://github.com/damahua/claude-code-hook-hero) installed as a Claude Code plugin (on the `feature/menubar-status` branch until merged)
+- [Hook Hero](https://github.com/damahua/claude-code-hook-hero) installed as a Claude Code plugin
 
 ## Install
 
@@ -46,6 +44,8 @@ HookHeroBar
 No dock icon — runs as a background app. The menu bar item appears immediately.
 
 To launch at login, add `HookHeroBar` to System Settings > General > Login Items.
+
+To stop: `pkill HookHeroBar`
 
 ## How It Works
 
@@ -71,7 +71,7 @@ Sources/HookHeroBar/
 
 ## Status File Schema
 
-See [`config/status-schema.json`](https://github.com/damahua/claude-code-hook-hero/blob/feature/menubar-status/config/status-schema.json) in the Hook Hero repo for the full JSON Schema.
+See [`config/status-schema.json`](https://github.com/damahua/claude-code-hook-hero/blob/master/config/status-schema.json) in the Hook Hero repo for the full JSON Schema.
 
 ## License
 
