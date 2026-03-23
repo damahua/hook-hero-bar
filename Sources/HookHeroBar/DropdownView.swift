@@ -25,11 +25,11 @@ struct DropdownView: View {
             VStack(spacing: 6) {
                 metricRow("Sessions", "\(status.today.sessionsTotal)", icon: "circle.fill",
                           iconColor: status.activeSessions > 0 ? .green : .gray,
-                          detail: status.activeSessions > 0 ? "\(status.activeSessions) active" : nil)
-                metricRow("Time", formatDuration(status.today.interactionTimeSec), icon: "clock")
+                          detail: status.activeSessions > 0 ? "\(status.activeSessions) open" : nil)
+                metricRow("Time", formatDuration(status.today.totalDurationSec), icon: "clock")
                 metricRow("Cost", formatCost(status.today.costUsd), icon: "dollarsign.circle")
                 metricRow("Prompts", "\(status.today.prompts)", icon: "text.bubble")
-                metricRow("Tool Calls", "\(status.today.toolCalls)", icon: "wrench")
+                metricRow("AI Output", formatTokenCount(status.today.tokens.output), icon: "cpu")
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -71,7 +71,7 @@ struct DropdownView: View {
             if !status.active.isEmpty {
                 Divider()
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Active Sessions")
+                    Text("Open Sessions")
                         .font(.system(.caption, design: .monospaced))
                         .foregroundStyle(.secondary)
                     ForEach(status.active, id: \.sessionId) { session in

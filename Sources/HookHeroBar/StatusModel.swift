@@ -20,6 +20,7 @@ struct StatusData: Codable {
 struct TodayData: Codable {
     let sessionsTotal: Int
     let interactionTimeSec: Double
+    let totalDurationSec: Double
     let costUsd: Double
     let tokens: TokenData
     let toolCalls: Int
@@ -29,6 +30,7 @@ struct TodayData: Codable {
     enum CodingKeys: String, CodingKey {
         case sessionsTotal = "sessions_total"
         case interactionTimeSec = "interaction_time_sec"
+        case totalDurationSec = "total_duration_sec"
         case costUsd = "cost_usd"
         case tokens
         case toolCalls = "tool_calls"
@@ -82,15 +84,24 @@ extension StatusData {
     /// Format for menu bar: "● 2 | 1h23m | $4.57"
     var menuBarTitle: String {
         let dot = activeSessions > 0 ? "●" : "●"
-        let time = formatDuration(today.interactionTimeSec)
+        let time = formatDuration(today.totalDurationSec)
         let cost = formatCost(today.costUsd)
         return "\(dot) \(activeSessions) | \(time) | \(cost)"
     }
 
     /// Whether this data is from today (not stale from yesterday).
     var isFromToday: Bool {
-        guard let date = ISO8601DateFormatter().date(from: updatedAt) else { return false }
-        return Calendar.current.isDateInToday(date)
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        // Try with fractional seconds first, then without
+        if let date = formatter.date(from: updatedAt) {
+            return Calendar.current.isDateInToday(date)
+        }
+        formatter.formatOptions = [.withInternetDateTime]
+        if let date = formatter.date(from: updatedAt) {
+            return Calendar.current.isDateInToday(date)
+        }
+        return false
     }
 
     static var empty: StatusData {
@@ -100,6 +111,7 @@ extension StatusData {
             today: TodayData(
                 sessionsTotal: 0,
                 interactionTimeSec: 0,
+                totalDurationSec: 0,
                 costUsd: 0,
                 tokens: TokenData(input: 0, output: 0, cacheRead: 0, cacheWrite: 0),
                 toolCalls: 0,
