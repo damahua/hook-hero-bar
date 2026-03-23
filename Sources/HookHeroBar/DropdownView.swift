@@ -26,8 +26,6 @@ struct DropdownView: View {
                 metricRow("Sessions", "\(status.today.sessionsTotal)", icon: "circle.fill",
                           iconColor: status.activeSessions > 0 ? .green : .gray,
                           detail: status.activeSessions > 0 ? "\(status.activeSessions) open" : nil)
-                metricRow("Total Time", formatDuration(status.today.totalDurationSec), icon: "clock")
-                metricRow("My Time", formatDuration(status.today.totalDurationSec - status.today.interactionTimeSec), icon: "person")
                 metricRow("Cost", formatCost(status.today.costUsd), icon: "dollarsign.circle")
                 metricRow("Prompts", "\(status.today.prompts)", icon: "text.bubble")
             }
