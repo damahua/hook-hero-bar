@@ -45,6 +45,9 @@ struct TokenData: Codable {
     let cacheRead: Int
     let cacheWrite: Int
 
+    /// Total input tokens (non-cached + cache read + cache write)
+    var totalInput: Int { input + cacheRead + cacheWrite }
+
     enum CodingKeys: String, CodingKey {
         case input, output
         case cacheRead = "cache_read"

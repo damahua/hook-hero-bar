@@ -33,7 +33,7 @@ struct DropdownView: View {
             .padding(.vertical, 10)
 
             // Tokens section
-            if status.today.tokens.input + status.today.tokens.output > 0 {
+            if status.today.tokens.totalInput + status.today.tokens.output > 0 {
                 Divider()
                 VStack(spacing: 4) {
                     HStack {
@@ -43,7 +43,7 @@ struct DropdownView: View {
                         Spacer()
                     }
                     HStack(spacing: 12) {
-                        tokenPill("In", status.today.tokens.input)
+                        tokenPill("In", status.today.tokens.totalInput)
                         tokenPill("Out", status.today.tokens.output)
                         tokenPill("Cache", status.today.tokens.cacheRead)
                     }

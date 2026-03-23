@@ -55,33 +55,31 @@ Green dot = open sessions. Click to expand detailed metrics.
 ```bash
 git clone https://github.com/damahua/hook-hero-bar.git
 cd hook-hero-bar
-swift build -c release
+./scripts/bundle.sh
 ```
 
-Optionally copy to your PATH:
-```bash
-cp .build/release/HookHeroBar /usr/local/bin/
-```
+This builds a release binary and wraps it in `HookHeroBar.app` (a proper macOS app bundle with `LSUIElement` — no Dock icon, no Terminal window).
 
 ## Run
 
 ```bash
-# If installed to PATH:
-HookHeroBar
-
-# Or run directly from the build:
-cd hook-hero-bar
-.build/debug/HookHeroBar
+open HookHeroBar.app
 ```
 
-- No dock icon — runs as a background app
+- No dock icon, no Terminal window — runs as a menu bar agent
 - The menu bar item appears immediately (right side, near the clock)
 - If no `status.json` exists yet, it shows `● 0 | 0m | $0.00` until the first Claude Code session fires a hook
+
+## Rebuild & Restart
+
+```bash
+pkill -x HookHeroBar; ./scripts/bundle.sh && open HookHeroBar.app
+```
 
 ## Stop
 
 ```bash
-pkill HookHeroBar
+pkill -x HookHeroBar
 ```
 
 ## Launch at Login
@@ -89,7 +87,7 @@ pkill HookHeroBar
 To start automatically when you log in:
 
 1. Open **System Settings > General > Login Items**
-2. Click **+** and add the `HookHeroBar` binary (either from `/usr/local/bin/` or `.build/release/`)
+2. Click **+** and add `HookHeroBar.app` from the project directory
 
 ## Troubleshooting
 
